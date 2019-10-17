@@ -10,7 +10,7 @@
           <li>*来自{{post|tabFormatter}}</li>
         </ul>
       </div>
-      <div class="main"></div>
+      <div v-html="post.content" class="topic_content "></div>
     </div>
     <div>回复</div>
   </div>
@@ -48,7 +48,6 @@
 
 <style>
   @import url('../assets/markdown-github.css');
-
   .topbar {
     padding: 10px;
     background-color: #f6f6f6;
@@ -82,10 +81,9 @@
     color: #666;
     text-decoration: none;
   }
-
-  .replySec {
-    border-bottom: 1px solid #e5e5e5;
-    padding: 0 10px;
+  .replySec{
+    border-bottom:1px solid #e5e5e5;
+    padding:0 10px;
   }
 
   .loading {
