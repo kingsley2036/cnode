@@ -1,56 +1,63 @@
 <template>
-    <div class="PostList">
-      <div class="loading" v-if="isloading">
-        <img src="../assets/loading.gif" alt="xxx">
-      </div>
+  <div class="PostList">
+    <div class="loading" v-if="isloading">
+      <img alt="xxx" src="../assets/loading.gif">
+    </div>
 
-      <div class="posts">
-        <ul>
-          <li>
-            <div class="topbar">
-              <span>全部</span>
-              <span>精华</span>
-              <span>分享</span>
-              <span>问答</span>
-              <span>招聘</span>
-            </div>
-          </li>
-          <li v-for="item in posts">
-            <img :src="item.author.avatar_url" alt="">
-            <span>
+    <div class="posts">
+      <ul>
+        <li>
+          <div class="topbar">
+            <span>全部</span>
+            <span>精华</span>
+            <span>分享</span>
+            <span>问答</span>
+            <span>招聘</span>
+          </div>
+        </li>
+        <li v-for="item in posts">
+          <img :src="item.author.avatar_url" alt="">
+          <span>
               <span class="reply_count">{{item.reply_count}}</span>/{{item.visit_count}}
             </span>
-            <span :class="[{put_good:(item.good===true),put_top:(item.top===true),'topiclist-tab':(item.good !== true && item.top !== true)}]">
+          <span
+            :class="[{put_good:(item.good===true),put_top:(item.top===true),'topiclist-tab':(item.good !== true && item.top !== true)}]">
               {{item|tabFormatter}}
             </span>
+          <!--            标题-->
+          <router-link :to="{name:'post_content',params:{
+                        id:item.id,
+                        name: item.author.loginname
+                        }}">
             <span>{{item.title}}</span>
-            <span class="last_reply">{{item.last_reply_at|formatDate}}</span>
-          </li>
-        </ul>
-      </div>
-
+          </router-link>
+          <span class="last_reply">{{item.last_reply_at|formatDate}}</span>
+        </li>
+      </ul>
     </div>
+
+  </div>
 </template>
 
 <script>
     export default {
         name: "PostList",
-        data:function () {
+        data: function () {
             return {
-                isloading:false,
-                posts:[]
+                isloading: false,
+                posts: []
             }
         },
-        methods:{
-            getdata(){
-                this.$http.get('https://cnodejs.org/api/v1/topics',{
-                    page:1,
-                    limit:20
+        methods: {
+            getdata() {
+                this.$http.get('https://cnodejs.org/api/v1/topics', {
+                    page: 1,
+                    limit: 20
                 })
-                    .then(res=>{
-                        this.isloading=false;
+                    .then(res => {
+                        this.isloading = false;
                         console.log(res.data.data);
-                        this.posts=res.data.data
+                        this.posts = res.data.data
                     })
                     .catch(function (err) {
                         console.log(err)
@@ -58,16 +65,17 @@
             }
         },
         beforeMount() {
-            this.isloading=true;
+            this.isloading = true;
             this.getdata()
         }
     }
 </script>
 
 <style scoped>
-  .PostList{
+  .PostList {
     background-color: #e1e1e1;
   }
+
   .posts {
     margin-top: 10px;
   }

@@ -2,7 +2,7 @@
   <div id="app">
     <Header></Header>
     <div class="main">
-      <PostList></PostList>
+      <router-view name="main"></router-view>
     </div>
 
   </div>
@@ -11,6 +11,7 @@
 <script>
     import Header from "./components/Header";
     import PostList from "./components/PostList";
+    import Article from "./components/Article";
 
     export default {
         name: "App",
@@ -26,7 +27,8 @@
     margin: 0;
     padding: 0;
   }
-  .main{
+
+  .main {
     width: 80%;
     margin: 0 auto;
   }
