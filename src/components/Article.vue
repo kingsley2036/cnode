@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="article">
     <div>
       <div class="topic_header">
         <div class="topic_title">{{post.title}}</div>
@@ -12,7 +12,26 @@
       </div>
       <div v-html="post.content" class="topic_content "></div>
     </div>
-    <div>回复</div>
+    <div id="reply">
+      <div class="topbar">回复</div>
+      <div v-for="(reply,index) in post.replies" class="replySec">
+        <div class="replyUp">
+          <router-link :to="{name:'user_info',params:{
+          name:reply.author.loginname
+          }}">
+            <img :src="reply.author.avatar_url">
+          </router-link>
+          <router-link :to="{name:'user_info',params:{
+          name:reply.author.loginname
+          }}">
+            <span>{{reply.author.loginname}}</span>
+          </router-link>
+
+          <span>{{index+1}}楼</span>
+        </div>
+        <p v-html="reply.content"></p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -48,6 +67,7 @@
 
 <style>
   @import url('../assets/markdown-github.css');
+
   .topbar {
     padding: 10px;
     background-color: #f6f6f6;
@@ -81,9 +101,10 @@
     color: #666;
     text-decoration: none;
   }
-  .replySec{
-    border-bottom:1px solid #e5e5e5;
-    padding:0 10px;
+
+  .replySec {
+    border-bottom: 1px solid #e5e5e5;
+    padding: 0 10px;
   }
 
   .loading {
