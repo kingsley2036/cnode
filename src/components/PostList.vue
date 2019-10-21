@@ -33,6 +33,10 @@
           </router-link>
           <span class="last_reply">{{item.last_reply_at|formatDate}}</span>
         </li>
+        <li>
+          <!--分页-->
+          <pagination @handleList="renderList"></pagination>
+        </li>
       </ul>
     </div>
 
@@ -40,6 +44,7 @@
 </template>
 
 <script>
+    import pagination from './Pagination'
     export default {
         name: "PostList",
         data: function () {
@@ -47,6 +52,9 @@
                 isloading: false,
                 posts: []
             }
+        },
+        components:{
+            pagination
         },
         methods: {
             getdata() {

@@ -10,7 +10,7 @@
           <li>*来自{{post|tabFormatter}}</li>
         </ul>
       </div>
-      <div v-html="post.content" class="topic_content "></div>
+      <div v-html="post.content" class="topic_content markdown-body "></div>
     </div>
     <div id="reply">
       <div class="topbar">回复</div>
@@ -29,7 +29,7 @@
 
           <span>{{index+1}}楼</span>
         </div>
-        <p v-html="reply.content"></p>
+        <p class="markdown-body" v-html="reply.content"></p>
       </div>
     </div>
   </div>
@@ -60,13 +60,18 @@
         },
         beforeMount() {
             this.getArticleData()
+        },
+        watch:{
+            '$route'(to,from){
+                this.getArticleData()
+            }
         }
 
     }
 </script>
 
-<style>
-  @import url('../assets/markdown-github.css');
+<style scoped>
+
 
   .topbar {
     padding: 10px;
@@ -144,7 +149,7 @@
     padding: 0 10px;
   }
 
-  .markdown-text img {
+  .markdown-body img {
     width: 92% !important;
   }
 </style>

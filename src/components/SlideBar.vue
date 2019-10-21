@@ -2,15 +2,31 @@
   <div class="autherinfo">
     <div class="authersummay">
       <div>作者</div>
-      <img :src="userinfo.avatar_url" alt="">
-      <span>{{userinfo.loginname}}</span>
+      <router-link :to="{name:'user_info',params:{
+          name:userinfo.loginname
+          }}">
+        <img :src="userinfo.avatar_url" alt="">
+      </router-link>
+
+      <router-link :to="{name:'user_info',params:{
+          name:userinfo.loginname
+          }}">
+        <span>{{userinfo.loginname}}</span>
+      </router-link>
+
       <p>积分{{userinfo.score}}</p>
     </div>
     <div class="recent_topics">
       <div>作者最近主题</div>
       <ul>
-        <li v-for="item in topcilimitby5">{{item.title}}</li>
-
+        <li v-for="item in topcilimitby5">
+          <router-link :to="{name:'post_content',params:{
+         id:item.id,
+         name: item.author.loginname
+        }}">
+            {{item.title}}
+          </router-link>
+        </li>
       </ul>
 
 
@@ -18,7 +34,14 @@
     <div class="recent_replies">
       <div>作者最近回复</div>
       <ul>
-        <li v-for="item in replylimitby5">{{item.title}}</li>
+        <li v-for="item in replylimitby5">
+          <router-link :to="{name:'post_content',params:{
+         id:item.id,
+         name: item.author.loginname
+        }}">
+            {{item.title}}
+          </router-link>
+         </li>
       </ul>
     </div>
   </div>
@@ -55,9 +78,9 @@
                 }
 
             },
-            replylimitby5(){
-                if(this.userinfo.recent_replies){
-                    return this.userinfo.recent_replies.slice(0,5);
+            replylimitby5() {
+                if (this.userinfo.recent_replies) {
+                    return this.userinfo.recent_replies.slice(0, 5);
                 }
             }
         }

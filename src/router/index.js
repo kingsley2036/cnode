@@ -4,6 +4,8 @@ import PostList from "../components/PostList";
 import Article from "../components/Article";
 import SlideBar from "../components/SlideBar";
 import Userinfo from "../components/Userinfo";
+
+import $ from 'jquery'
 Vue.use(Router)
 
 export default new Router({
