@@ -1,6 +1,9 @@
 <template>
   <div class="article">
-    <div>
+    <div class="loading" v-if="isLoading">
+      <img src="../assets/loading.gif" />
+    </div>
+    <div v-else>
       <div class="topic_header">
         <div class="topic_title">{{post.title}}</div>
         <ul>
@@ -9,9 +12,10 @@
           <li>*{{post.visit_count}}次浏览</li>
           <li>*来自{{post|tabFormatter}}</li>
         </ul>
+        <div v-html="post.content" class="topic_content markdown-body "></div>
       </div>
-      <div v-html="post.content" class="topic_content markdown-body "></div>
-    </div>
+
+
     <div id="reply">
       <div class="topbar">回复</div>
       <div v-for="(reply,index) in post.replies" class="replySec">
@@ -37,6 +41,7 @@
 
       </div>
     </div>
+    </div>
   </div>
 </template>
 
@@ -46,7 +51,8 @@
         name: "Article",
         data: function () {
             return {
-                post: {}
+                post: {},
+                isLoading:false
             }
         },
         methods: {
@@ -54,6 +60,7 @@
                 this.$http.get(`https://cnodejs.org/api/v1/topic/${this.$route.params.id}`)
                     .then((res) => {
                         if (res.data.success === true) {
+                            this.isLoading=false;
                             this.post = res.data.data;
                         }
 
@@ -64,6 +71,7 @@
             }
         },
         beforeMount() {
+            this.isLoading=true;
             this.getArticleData()
         },
         watch:{

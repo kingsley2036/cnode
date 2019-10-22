@@ -123,9 +123,10 @@
     font-size: 12px;
     margin-top: 10px;
   }
-  .topbar a {
-    color: #778087;
+  .authersummay  p{
+    margin-left: 12px;
   }
+
   .sideAuthor{
     color: #778087;
     position:absolute ;
