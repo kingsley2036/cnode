@@ -5,7 +5,7 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import 'github-markdown-css'
-import $ from 'jquery'
+
 Vue.prototype.$http = axios
 Vue.config.productionTip = false
 Vue.filter('formatDate', function (str) {

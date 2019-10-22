@@ -35,7 +35,7 @@
         </li>
         <li>
           <!--分页-->
-          <pagination @handleList="renderList"></pagination>
+          <Pagination @handleList="renderList"></Pagination>
         </li>
       </ul>
     </div>
@@ -44,44 +44,54 @@
 </template>
 
 <script>
-    import pagination from './Pagination'
+    import Pagination from './Pagination'
     export default {
         name: "PostList",
         data: function () {
             return {
                 isloading: false,
-                posts: []
+                posts: [],
+                postpage:1
             }
         },
         components:{
-            pagination
+          Pagination
         },
         methods: {
             getdata() {
                 this.$http.get('https://cnodejs.org/api/v1/topics', {
-                    page: 1,
+                  params:{
+                    page: this.postpage,
                     limit: 20
+                  }
                 })
                     .then(res => {
                         this.isloading = false;
-                        console.log(res.data.data);
+                        // console.log(res.data.data);
                         this.posts = res.data.data
                     })
                     .catch(function (err) {
                         console.log(err)
                     })
-            }
+            },
+
+    renderList:function(value){
+              this.postpage=value;
+              console.log(value)
+              this.getdata();
+          }
         },
         beforeMount() {
             this.isloading = true;
-            this.getdata()
+            this.getdata();
         }
     }
 </script>
 
 <style scoped>
   .PostList {
-    background-color: #e1e1e1;
+    background: #e1e1e1;
+
   }
 
   .posts {

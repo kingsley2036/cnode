@@ -33,5 +33,12 @@
   .main {
     width: 80%;
     margin: 0 auto;
+
+  }
+  #app{
+    background:#e1e1e1 ;
+  }
+  a{
+    text-decoration: none;
   }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="autherinfo">
     <div class="authersummay">
-      <div>作者</div>
+      <div class="topbar" >作者</div>
       <router-link :to="{name:'user_info',params:{
           name:userinfo.loginname
           }}">
@@ -10,14 +10,15 @@
 
       <router-link :to="{name:'user_info',params:{
           name:userinfo.loginname
-          }}">
-        <span>{{userinfo.loginname}}</span>
+          }}" style="position: relative;" >
+        <span class="sideAuthor">{{userinfo.loginname}}</span>
+
       </router-link>
 
       <p>积分{{userinfo.score}}</p>
     </div>
     <div class="recent_topics">
-      <div>作者最近主题</div>
+      <div class="topbar">作者最近主题</div>
       <ul>
         <li v-for="item in topcilimitby5">
           <router-link :to="{name:'post_content',params:{
@@ -32,7 +33,7 @@
 
     </div>
     <div class="recent_replies">
-      <div>作者最近回复</div>
+      <div class="topbar">作者最近回复</div>
       <ul>
         <li v-for="item in replylimitby5">
           <router-link :to="{name:'post_content',params:{
@@ -122,6 +123,15 @@
     font-size: 12px;
     margin-top: 10px;
   }
+  .topbar a {
+    color: #778087;
+  }
+  .sideAuthor{
+    color: #778087;
+    position:absolute ;
+    top: -30px;
+  }
+
 
   img {
     height: 48px;

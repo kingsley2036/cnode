@@ -5,7 +5,7 @@
     <button v-if="jduge" class="pagebtn">......</button>
     <button v-for="btn in pagebtns"
             @click="changeBtn(btn)"
-            :class="[{currentPage:btn == currentPage},'pagebtn']">
+            :class="[{currentPage:btn === currentPage},'pagebtn']">
       {{btn}}
     </button>
     <button @click="changeBtn">下一页</button>
@@ -13,7 +13,7 @@
 </template>
 
 <script>
-
+  import $ from 'jquery'
 
     export default {
         name: "Pagination",
@@ -53,14 +53,14 @@
                 if(page == this.pagebtns[4] ){
                     this.pagebtns.shift();//移除第一个元素
                     this.pagebtns.splice(4,0,this.pagebtns[3]+1);//添加最后一个
-                }else if(page == this.pagebtns[0] && page !=1){
+                }else if(page == this.pagebtns[0] && page !==1){
                     //先在第一个位置加一个
                     this.pagebtns.unshift(this.pagebtns[0]-1);
                     //移除最后一个数字
                     this.pagebtns.splice(5,1);
                 }
-                debugger
                 this.$emit('handleList',this.currentPage);
+                console.log('子组件页数'+this.currentPage)
             }
         }
     }

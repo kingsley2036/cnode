@@ -19,8 +19,10 @@
           <router-link :to="{name:'user_info',params:{
           name:reply.author.loginname
           }}">
-            <img :src="reply.author.avatar_url">
+            <img :src="reply.author.avatar_url" alt="">
           </router-link>
+
+
           <router-link :to="{name:'user_info',params:{
           name:reply.author.loginname
           }}">
@@ -29,7 +31,10 @@
 
           <span>{{index+1}}楼</span>
         </div>
-        <p class="markdown-body" v-html="reply.content"></p>
+        <div class="replycontent">
+          <p class="markdown-body " v-html="reply.content"></p>
+        </div>
+
       </div>
     </div>
   </div>
@@ -86,7 +91,7 @@
     margin-top: 15px;
   }
 
-  #reply, .topic_header {
+  #reply,.topic_header {
     background-color: #fff;
   }
 
@@ -147,9 +152,13 @@
   .topic_content {
     border-top: 1px solid #e5e5e5;
     padding: 0 10px;
+    background: #ffffff;
   }
 
   .markdown-body img {
     width: 92% !important;
+  }
+  .replycontent{
+    margin-left: 40px;
   }
 </style>
