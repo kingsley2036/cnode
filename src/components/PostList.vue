@@ -1,10 +1,9 @@
 <template>
   <div class="PostList">
     <div class="loading" v-if="isloading">
-      <img alt="xxx" src="../assets/loading.gif">
+      <img alt="xxx" src="../assets/loading.gif" />
     </div>
-
-    <div class="posts">
+    <div class="posts" v-cloak>
       <ul>
         <li>
           <div class="topbar">
@@ -16,19 +15,21 @@
           </div>
         </li>
         <li v-for="item in posts">
-          <img :src="item.author.avatar_url" alt="">
+          <img :src="item.author.avatar_url" alt />
           <span>
-              <span class="reply_count">{{item.reply_count}}</span>/{{item.visit_count}}
-            </span>
+            <span class="reply_count">{{item.reply_count}}</span>
+            /{{item.visit_count}}
+          </span>
           <span
-            :class="[{put_good:(item.good===true),put_top:(item.top===true),'topiclist-tab':(item.good !== true && item.top !== true)}]">
-              {{item|tabFormatter}}
-            </span>
+            :class="[{put_good:(item.good===true),put_top:(item.top===true),'topiclist-tab':(item.good !== true && item.top !== true)}]"
+          >{{item|tabFormatter}}</span>
           <!--            标题-->
-          <router-link :to="{name:'post_content',params:{
+          <router-link
+            :to="{name:'post_content',params:{
                         id:item.id,
                         name: item.author.loginname
-                        }}">
+                        }}"
+          >
             <span>{{item.title}}</span>
           </router-link>
           <span class="last_reply">{{item.last_reply_at|formatDate}}</span>
@@ -39,174 +40,177 @@
         </li>
       </ul>
     </div>
-
   </div>
 </template>
 
 <script>
-    import Pagination from './Pagination'
-    export default {
-        name: "PostList",
-        data: function () {
-            return {
-                isloading: false,
-                posts: [],
-                postpage:1
-            }
-        },
-        components:{
-          Pagination
-        },
-        methods: {
-            getdata() {
-                this.$http.get('https://cnodejs.org/api/v1/topics', {
-                  params:{
-                    page: this.postpage,
-                    limit: 20
-                  }
-                })
-                    .then(res => {
-                        this.isloading = false;
-                        // console.log(res.data.data);
-                        this.posts = res.data.data
-                    })
-                    .catch(function (err) {
-                        console.log(err)
-                    })
-            },
-
-    renderList:function(value){
-              this.postpage=value;
-              console.log(value)
-              this.getdata();
+import Pagination from "./Pagination";
+export default {
+  name: "PostList",
+  data: function() {
+    return {
+      isloading: false,
+      posts: [],
+      postpage: 1
+    };
+  },
+  components: {
+    Pagination
+  },
+  methods: {
+    getdata() {
+      this.$http
+        .get("https://cnodejs.org/api/v1/topics", {
+          params: {
+            page: this.postpage,
+            limit: 20
           }
-        },
-        beforeMount() {
-            this.isloading = true;
-            this.getdata();
-        }
+        })
+        .then(res => {
+          this.isloading = false;
+          this.posts = res.data.data;
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+    },
+
+    renderList: function(value) {
+      this.postpage = value;
+      console.log(value);
+      this.getdata();
     }
+  },
+  beforeMount() {
+    this.isloading = true;
+    this.getdata();
+  }
+};
 </script>
 
 <style scoped>
-  .PostList {
-    background: #e1e1e1;
+[v-cloak] {
+  display: none;
+}
+.PostList {
+  background: #e1e1e1;
+}
 
-  }
+.posts {
+  margin-top: 10px;
+}
 
-  .posts {
-    margin-top: 10px;
-  }
+.PostList img {
+  height: 30px;
+  width: 30px;
+  vertical-align: middle;
+}
 
-  .PostList img {
-    height: 30px;
-    width: 30px;
-    vertical-align: middle;
-  }
+ul {
+  list-style: none;
+  width: 100%;
+  max-width: 1344px;
+  margin: 0 auto;
+}
 
-  ul {
-    list-style: none;
-    width: 100%;
-    max-width: 1344px;
-    margin: 0 auto;
-  }
+ul li:not(:first-child) {
+  padding: 9px;
+  font-size: 15px;
+  font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma,
+    "Hiragino Sans GB", STHeiti, sans-serif !important;
+  font-weight: 400;
+  background-color: white;
+  color: #333;
+  border-top: 1px solid #f0f0f0;
+}
 
-  ul li:not(:first-child) {
-    padding: 9px;
-    font-size: 15px;
-    font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti, sans-serif !important;
-    font-weight: 400;
-    background-color: white;
-    color: #333;
-    border-top: 1px solid #f0f0f0;
-  }
+li:not(:first-child):hover {
+  background: #f5f5f5;
+}
 
-  li:not(:first-child):hover {
-    background: #f5f5f5;;
-  }
+li:last-child:hover {
+  background: white;
+}
 
-  li:last-child:hover {
-    background: white;
-  }
+li span {
+  line-height: 30px;
+}
 
-  li span {
-    line-height: 30px;
-  }
+.allcount {
+  width: 70px;
+  display: inline-block;
+  text-align: center;
+  font-size: 12px;
+}
 
-  .allcount {
-    width: 70px;
-    display: inline-block;
-    text-align: center;
-    font-size: 12px;
-  }
+.reply_count {
+  color: #9e78c0;
+  font-size: 14px;
+}
 
-  .reply_count {
-    color: #9e78c0;
-    font-size: 14px;
-  }
+.put_good,
+.put_top {
+  background: #80bd01;
+  padding: 2px 4px;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -o-border-radius: 3px;
+  color: #fff;
+  font-size: 12px;
+  margin-right: 10px;
+}
 
-  .put_good, .put_top {
-    background: #80bd01;
-    padding: 2px 4px;
-    border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -o-border-radius: 3px;
-    color: #fff;
-    font-size: 12px;
-    margin-right: 10px;
-  }
+.topiclist-tab {
+  background-color: #e5e5e5;
+  color: #999;
+  padding: 2px 4px;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -o-border-radius: 3px;
+  font-size: 12px;
+  margin-right: 10px;
+}
 
-  .topiclist-tab {
-    background-color: #e5e5e5;
-    color: #999;
-    padding: 2px 4px;
-    border-radius: 3px;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -o-border-radius: 3px;
-    font-size: 12px;
-    margin-right: 10px;
-  }
+.last_reply {
+  text-align: right;
+  min-width: 50px;
+  display: inline-block;
+  white-space: nowrap;
+  float: right;
+  color: #778087;
+  font-size: 12px;
+}
 
-  .last_reply {
-    text-align: right;
-    min-width: 50px;
-    display: inline-block;
-    white-space: nowrap;
-    float: right;
-    color: #778087;
-    font-size: 12px;
-  }
+.topbar {
+  height: 40px;
+  background-color: #f5f5f5;
+}
 
-  .topbar {
-    height: 40px;
-    background-color: #f5f5f5;
-  }
+.topbar span {
+  font-size: 14px;
+  color: #80bd01;
+  line-height: 40px;
+  margin: 0 10px;
+  cursor: pointer;
+}
 
-  .topbar span {
-    font-size: 14px;
-    color: #80bd01;
-    line-height: 40px;
-    margin: 0 10px;
-    cursor: pointer;
-  }
+.topbar span:hover {
+  color: #9e78c0;
+}
 
-  .topbar span:hover {
-    color: #9e78c0;
-  }
+a {
+  text-decoration: none;
+  color: black;
+}
 
-  a {
-    text-decoration: none;
-    color: black;
-  }
+a:hover {
+  text-decoration: underline;
+}
 
-  a:hover {
-    text-decoration: underline;
-  }
-
-  .loading {
-    text-align: center;
-    padding-top: 300px;
-  }
+.loading {
+  text-align: center;
+  padding-top: 300px;
+}
 </style>
